@@ -1,0 +1,63 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Contador Customizado</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, render: render });
+
+function preload() {
+
+    game.load.image('phaser', 'assets/phaser.png');
+
+}
+
+var timer;
+var contador = 0;
+
+function create() {
+
+    game.stage.backgroundColor = '#6688ee';
+    
+    //add imagem na tela
+    picture = game.add.sprite(game.world.centerX, game.world.centerY, 'phaser');
+    //centralizar a imagem
+    picture.anchor.setTo(0.5, 0.5);
+
+    //  Criando o Timer
+    timer = game.time.create(false);
+
+    //  Criando um evento que ocorre a cada 2 segundos
+    timer.loop(2000, evento, this);
+
+    //  Startando o timer! Muito importante, porque o timer não inicia sozinho
+    timer.start();
+
+}
+
+function evento() {
+
+    contador++;
+
+}
+
+function render() {
+
+    game.debug.text('Tempo até a próxima contagem: ' + timer.duration.toFixed(0), 32, 32);
+    game.debug.text('Contador: ' + contador, 32, 64);
+
+}
+</script>
+
+</body>
+</html>

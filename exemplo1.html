@@ -1,0 +1,51 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Segundos</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, render: render });
+var segundo;
+var gameTimer;
+function preload() {
+
+   game.load.image('phaser', 'assets/phaser.png');
+
+}
+
+function create() {
+
+     game.stage.backgroundColor = '#6688ee';
+     
+     //add imagem na tela
+    picture = game.add.sprite(game.world.centerX, game.world.centerY, 'phaser');
+    //centralizar a imagem
+    picture.anchor.setTo(0.5, 0.5);
+    
+}
+
+ 
+function update() {
+    
+    segundo.text = gameTimer.seconds.toFixed(0);
+    
+}
+
+function render() {
+
+    game.debug.text('Elapsed seconds: ' + this.game.time.totalElapsedSeconds(), 32, 32 );
+
+}
+</script>
+
+</body>
+</html>

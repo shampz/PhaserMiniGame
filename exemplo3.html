@@ -1,0 +1,57 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Evento Simples com Tempo</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, render: render });
+
+function preload() {
+    
+    //load da imagem
+    game.load.image('phaser', 'assets/phaser.png');
+
+}
+
+var picture;
+
+function create() {
+    
+    //cor do fundo
+    game.stage.backgroundColor = '#6688ee';
+    
+    //add imagem na tela
+    picture = game.add.sprite(game.world.centerX, game.world.centerY, 'phaser');
+    //centralizar a imagem
+    picture.anchor.setTo(0.5, 0.5);
+    
+    //em 2 segundo a imagem vai desaparecer
+    game.time.events.add(Phaser.Timer.SECOND * 2, fadePicture, this);
+
+}
+
+function fadePicture() {
+
+    game.add.tween(picture).to( { alpha: 0 }, 2000, Phaser.Easing.Linear.None, true);
+
+}
+
+function render() {
+
+    game.debug.text("Tempo até a imagem desaparecer: " + game.time.events.duration, 32, 32);
+
+}
+</script>
+
+</body>
+</html>

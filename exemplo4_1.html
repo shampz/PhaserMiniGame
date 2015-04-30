@@ -1,0 +1,68 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Evento Simples com Tempo</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, render: render });
+
+var timer;
+var milliseconds = 0;
+var seconds = 0;
+var minutes = 0;
+ 
+ function preload() {
+
+    game.load.image('phaser', 'assets/phaser.png');
+
+}
+function create() {
+ 
+    timer = game.add.bitmapText(250, 250, '00:00:00');
+ 
+}
+ 
+ 
+function update() {
+ 
+    //Calling a different function to update the timer just cleans up the update loop if you have other code.
+    updateTimer();
+ 
+}
+ 
+ 
+function updateTimer() {
+ 
+    minutes = Math.floor(game.time.time / 60000) % 60;
+ 
+    seconds = Math.floor(game.time.time / 1000) % 60;
+ 
+    milliseconds = Math.floor(game.time.time) % 100;
+ 
+    //If any of the digits becomes a single digit number, pad it with a zero
+    if (milliseconds < 10)
+        milliseconds = '0' + milliseconds;
+ 
+    if (seconds < 10)
+        seconds = '0' + seconds;
+ 
+    if (minutes < 10)
+        minutes = '0' + minutes;
+ 
+    timer.setText(minutes + ':'+ seconds + ':' + milliseconds);
+ 
+}
+</script>
+
+</body>
+</html>
