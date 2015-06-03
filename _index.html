@@ -30,7 +30,9 @@ var player;
 var toldo;
 var cursors;
 var score=0;
+var life=3;
 var fogo;
+
 
 function create() {
 
@@ -41,13 +43,19 @@ function create() {
     player = game.add.sprite(395, 77.5, 'player');
     toldo = game.add.sprite(335, 160, 'toldo');
     fogos = game.add.group();
+    fogos.enableBody = true;
+    fogos.physicsBodyType = Phaser.Physics.ARCADE;
     
     for (var i = 1; i < 3; i++){
           for (var j = 1; j < 10; j++){
               if(j==1){
-                  var fogo = fogos.create(i * 243, j * 137, 'fogo');
+                  //var fogo = fogos.create( 'fogo', 17);
+                  var fogo = fogos.create(i * 243, j * 137, 'fogo', 17);
+                  fogo.body.immovable = true;
+                  
               }else{
-                  var fogo = fogos.create(i * 243, j * 151, 'fogo');
+                  var fogo = fogos.create(i * 243, j * 151, 'fogo', 17);
+                  fogo.body.immovable = true;
 
               }
 
@@ -55,7 +63,7 @@ function create() {
       }
 
    
-    game.physics.enable([player, toldo, fogos], Phaser.Physics.ARCADE);
+    game.physics.enable([player, toldo], Phaser.Physics.ARCADE);
     player.body.collideWorldBounds = true;
     
     game.camera.follow(player);
@@ -70,11 +78,16 @@ function create() {
      //  The score
     scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     
+    //  The life
+    lifeText = game.add.text(156, 16, 'Life: 3', { fontSize: '32px', fill: '#000' });
+    
+    
+    
 }
 
 function update() {
    
-   game.physics.arcade.collide(player, fogos);
+   game.physics.arcade.collide(player, fogos, damage, null, this);
    
    if(game.physics.arcade.collide(player, toldo, points, null, this)){
         toldo.frame = 1;
@@ -122,12 +135,30 @@ function points (player, toldo) {
     scoreText.text = 'Score: ' + score;
 
 }
+function damage (player, fogos){
+    fogos.kill();
+    life = life - 1;
+    lifeText.text = 'Life: ' + life;
+    
+    if (life <= 0)
+    {
+        player.kill();
+        //  The life
+        endText = game.add.text(256, 356, 'Você morreu! Fim do jogo', { fontSize: '32px', fill: '#000' });
+        
+        return true;
+    }
+
+    return false;
+    
+}
 
 function render() {
 
     //game.debug.cameraInfo(game.camera, 500, 32);
     //game.debug.spriteCoords(player, 32, 32);
     //game.debug.physicsBody(player.body);
+    
 
 }
  
