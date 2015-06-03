@@ -55,7 +55,7 @@ function create() {
       }
 
    
-    game.physics.enable([player, toldo], Phaser.Physics.ARCADE);
+    game.physics.enable([player, toldo, fogos], Phaser.Physics.ARCADE);
     player.body.collideWorldBounds = true;
     
     game.camera.follow(player);
@@ -73,6 +73,8 @@ function create() {
 }
 
 function update() {
+   
+   game.physics.arcade.collide(player, fogos);
    
    if(game.physics.arcade.collide(player, toldo, points, null, this)){
         toldo.frame = 1;
