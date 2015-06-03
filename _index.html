@@ -46,6 +46,9 @@ function create() {
     fogos.enableBody = true;
     fogos.physicsBodyType = Phaser.Physics.ARCADE;
     
+    game.camera.follow(player);
+    cursors = game.input.keyboard.createCursorKeys();
+    
     for (var i = 1; i < 3; i++){
           for (var j = 1; j < 10; j++){
               if(j==1){
@@ -66,9 +69,6 @@ function create() {
     game.physics.enable([player, toldo], Phaser.Physics.ARCADE);
     player.body.collideWorldBounds = true;
     
-    game.camera.follow(player);
-
-    cursors = game.input.keyboard.createCursorKeys();
     
     
     //  Our two animations, walking left and right.
@@ -77,10 +77,10 @@ function create() {
     
      //  The score
     scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
-    
+    scoreText.fixedToCamera = true;
     //  The life
     lifeText = game.add.text(156, 16, 'Life: 3', { fontSize: '32px', fill: '#000' });
-    
+    lifeText.fixedToCamera = true;
     
     
 }
@@ -121,8 +121,9 @@ function update() {
     {
         //  Player physics properties. Give the little guy a slight bounce.
         player.body.bounce.y = 0.2;
-        player.body.gravity.y = 7000;
-        player.body.collideWorldBounds = true;
+        player.body.gravity.y = 9000;
+        
+        
     }
 
 }
@@ -133,6 +134,7 @@ function points (player, toldo) {
     
     score += 10;
     scoreText.text = 'Score: ' + score;
+    
 
 }
 function damage (player, fogos){
@@ -140,12 +142,13 @@ function damage (player, fogos){
     life = life - 1;
     lifeText.text = 'Life: ' + life;
     
+    
     if (life <= 0)
     {
         player.kill();
         //  The life
-        endText = game.add.text(256, 356, 'Você morreu! Fim do jogo', { fontSize: '32px', fill: '#000' });
-        
+        endText = game.add.text(256, 256, 'Você morreu! Fim do jogo', { fontSize: '32px', fill: '#000' });
+        endText.fixedToCamera = true;
         return true;
     }
 
@@ -155,8 +158,8 @@ function damage (player, fogos){
 
 function render() {
 
-    //game.debug.cameraInfo(game.camera, 500, 32);
-    //game.debug.spriteCoords(player, 32, 32);
+    game.debug.cameraInfo(game.camera, 500, 32);
+    game.debug.spriteCoords(player, 32, 32);
     //game.debug.physicsBody(player.body);
     
 
